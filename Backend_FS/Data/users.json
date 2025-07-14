@@ -115,5 +115,44 @@
     "address": "Sriharipuram, Visakhapatnam, 530011",
     "dob": "2003-09-01T00:00:00.000Z",
     "qualification": "Bsc Zoology"
+  },
+  {
+    "id": "1752466811808",
+    "firstName": "Hariansh",
+    "lastName": "Singh",
+    "email": "hari@gmail.com",
+    "phone": "7536982140",
+    "gender": "Male",
+    "password": "$2b$10$pZ1p1Gn5EJ30vZXIr2Ufte.pUJNkVaxy1g.bZ602LfS2vUS1etQaq",
+    "createdAt": "2025-07-14T04:20:11.903Z",
+    "address": "Amritsar, Punjab, 143001",
+    "dob": "2003-12-13T00:00:00.000Z",
+    "qualification": "B.E CSE(AIML)"
+  },
+  {
+    "id": "1752466930494",
+    "firstName": "Priyanshu",
+    "lastName": "Yadav",
+    "email": "priyanshu@gmail.com",
+    "phone": "9856321478",
+    "gender": "Male",
+    "password": "$2b$10$TZcKWYNyelCmjrovBjV2oOi83u.M22QiqKzWBl9zvmEJNV5VC7SFS",
+    "createdAt": "2025-07-14T04:22:10.494Z",
+    "address": "Chunar, Mirzapur,UP, 231304",
+    "dob": "2002-12-30T00:00:00.000Z",
+    "qualification": "B.E CSE"
+  },
+  {
+    "id": "1752493643984",
+    "firstName": "Gaurav",
+    "lastName": "Jaiswal",
+    "email": "gaurav@gmail.com",
+    "phone": "7412589630",
+    "gender": "Male",
+    "password": "$2b$10$26.h.RH0a8Fv3l8fTd0VdeyDbfL/BLNEhMhXfSl.A53r5USw933QC",
+    "createdAt": "2025-07-14T11:47:23.984Z",
+    "address": "Balongi, Punjab, 160055",
+    "dob": "2002-09-12T00:00:00.000Z",
+    "qualification": "B.E CSE"
   }
 ]
