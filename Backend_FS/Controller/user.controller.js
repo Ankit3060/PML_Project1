@@ -83,6 +83,7 @@ export const registerUser = async (req, res) => {
         res.status(201).json({
             status : 200,
             success: true, 
+            token,
             message: "User registered successfully" 
         });
     } catch (err) {
@@ -119,6 +120,7 @@ export const loginUser = async (req, res) => {
 
         res.status(200).json({ 
             status: 200,
+            token,
             success: true, 
             message: "User logged in successfully" 
         });
@@ -152,14 +154,8 @@ export const logoutUser = async (req, res) => {
 
 export const getUserDetails = async (req, res) => {
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({ success: false, message: "Not authenticated" });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const users = readUsers();
-        const user = users.find(u => u.id === decoded.id);
+        const user = users.find(u => u.id === req.user.id);
 
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
@@ -185,15 +181,8 @@ export const updateDetails = async (req, res) => {
     try {
         const { firstName, lastName, phone, gender, address, dob, qualification } = req.body;
 
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({ success: false, message: "Not authenticated" });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
         let users = readUsers();
-        const userIndex = users.findIndex(u => u.id === decoded.id);
+        const userIndex = users.findIndex(u => u.id === req.user.id);
 
         if (userIndex === -1) {
             return res.status(404).json({ success: false, message: "User not found" });
@@ -244,11 +233,6 @@ export const updateDetails = async (req, res) => {
 export const updatePassword = async (req, res) => {
     try {
         const { newPassword, confirmPassword } = req.body;
-        const token = req.cookies.token;
-
-        if (!token) {
-            return res.status(401).json({ success: false, message: "Not authenticated" });
-        }
 
         if (!newPassword || !confirmPassword) {
             return res.status(400).json({ success: false, message: "Both passwords are required" });
@@ -262,9 +246,8 @@ export const updatePassword = async (req, res) => {
             return res.status(400).json({ success: false, message: "Password does not meet security criteria" });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         let users = readUsers();
-        const userIndex = users.findIndex(u => u.id === decoded.id);
+        const userIndex = users.findIndex(u => u.id === req.user.id);
 
         if (userIndex === -1) {
             return res.status(404).json({ success: false, message: "User not found" });
@@ -291,14 +274,6 @@ export const updatePassword = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({ success: false, message: "Not authenticated" });
-        }
-        const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY);
-        if(!decoded) {
-            return res.status(401).json({ success: false, message: "Invalid token" });
-        }
 
         let user = readUsers();
         user = user.map(({ password, ...rest }) => rest);
@@ -319,16 +294,6 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({ success: false, message: "Not authenticated" });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if (!decoded) {
-            return res.status(401).json({ success: false, message: "Invalid token" });
-        }
-
         const { id } = req.params;
         let users = readUsers();
         const user = users.find(u => u.id === id);
@@ -352,23 +317,9 @@ export const getUserById = async (req, res) => {
     }
 }
 
+
 export const deleteUser = async (req, res) =>{
     try {
-        const token = req.cookies.token;
-        if(!token){
-            return res.status(401).json({
-                success: false,
-                message: "Not authenticated"
-            });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if(!decoded) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token"
-            });
-        }
 
         const {id} = req.params;
         let users = readUsers();
@@ -400,21 +351,6 @@ export const deleteUser = async (req, res) =>{
 
 export const updateUser = async (req,res) =>{
     try {
-        const token = req.cookies.token;
-        if(!token) {
-            return res.status(401).json({
-                success: false,
-                message: "Not authenticated"
-            });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if(!decoded) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token"
-            });
-        }
         const { id } = req.params;
         const {firstName, lastName, phone, gender, address, dob, qualification} = req.body;
 
@@ -471,21 +407,6 @@ export const updateUser = async (req,res) =>{
 
 export const createUser = async (req, res) => {
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: "Not authenticated"
-            });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if (!decoded) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token"
-            });
-        }
 
         const {firstName, lastName, email, phone, gender, password} = req.body;
         if (!firstName || !lastName || !email || !phone || !gender || !password) {
